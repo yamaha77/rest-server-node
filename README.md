@@ -2,7 +2,3 @@
 
 Install libraries 
 ```npm install```
-
-## Init server
-
-```node start```
