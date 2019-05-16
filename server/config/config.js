@@ -12,3 +12,9 @@ if ( process.env.NODE_ENV === 'dev' ) {
     url_db = process.env.MONGO_URI;
 }
 process.env.URL_DB = url_db;
+
+// EXPIRED TOKEN
+process.env.EXPIRED_TOKEN = 60 * 60 * 24 * 30;
+
+// SEED OF AUTHENTICATION
+process.env.SEED = process.env.SEED || 'secret-dev-api';

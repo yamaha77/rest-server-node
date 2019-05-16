@@ -15,14 +15,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use( require('./routes/user') );
+// ROUTES
+app.use( require('./routes/index') );
 
+// DATABASE
 mongoose.connect(process.env.URL_DB, (err, res) => {
     if (err) throw err;
 
     console.log('DB active');
 });
 
+// SERVER
 app.listen(process.env.PORT, () => {
   console.log('Example app listening on port 3000!');
 });

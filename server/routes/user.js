@@ -5,7 +5,9 @@ const User = require('../models/user');
 
 const app = express();
 
-app.get('/user', (req, res) => {
+const { verificationToken, verificationRole } = require('../middlewares/authentication');
+
+app.get('/user', verificationToken,(req, res) => {
     
     let since = Number(req.query.since) || 0;
     let limit = Number(req.query.limit) || 5;
@@ -36,7 +38,7 @@ app.get('/user', (req, res) => {
         })
 });
   
-app.post('/user', (req, res) => {
+app.post('/user', [verificationToken, verificationRole],(req, res) => {
     
     let body = req.body;
     let user = new User({
@@ -60,7 +62,7 @@ app.post('/user', (req, res) => {
     });
 });
 
-app.put('/user/:id', (req, res) => {
+app.put('/user/:id', [verificationToken, verificationRole],(req, res) => {
     
     let body = _.pick(req.body, ['name', 'mail', 'role', 'state']);
     let id = req.params.id;
@@ -83,7 +85,7 @@ app.put('/user/:id', (req, res) => {
     
 });
 
-app.delete('/user/:id', (req, res) => {
+app.delete('/user/:id', [verificationToken, verificationRole],(req, res) => {
     
     let id = req.params.id;
     let new_state = { state: false };
