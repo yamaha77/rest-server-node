@@ -35,7 +35,7 @@ app.post('/login', (req, res) => {
 
         let token = jwt.sign({
             user: user_db
-        }, 'secret-dev-api', { expiresIn: process.env.EXPIRED_TOKEN });
+        }, process.env.SEED, { expiresIn: process.env.EXPIRED_TOKEN });
         res.json({
             ok: true,
             user: user_db,
