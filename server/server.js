@@ -25,11 +25,10 @@ app.use( require('./routes/index') );
 // DATABASE
 mongoose.connect(process.env.URL_DB, (err, res) => {
     if (err) throw err;
-
     console.log('DB active');
 });
 
 // SERVER
 app.listen(process.env.PORT, () => {
-  console.log('Example app listening on port 3000!');
+  console.log('Server RUN...!');
 });

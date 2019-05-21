@@ -22,7 +22,7 @@ app.get('/user', verificationToken,(req, res) => {
                 })
             } 
 
-            User.count({ state: true }, (err, quantity) => {
+            User.countDocuments({ state: true }, (err, quantity) => {
                 if (err){
                     return res.status(400).json({
                         ok: false,
@@ -67,7 +67,7 @@ app.put('/user/:id', [verificationToken, verificationRole],(req, res) => {
     let body = _.pick(req.body, ['name', 'mail', 'role', 'state']);
     let id = req.params.id;
     User.findByIdAndUpdate(id, body, 
-        { new: true, runValidators: true }, 
+        { new: true, runValidators: true, context: 'query' }, 
         (err, user_db) => {
 
             if (err) {
@@ -90,10 +90,10 @@ app.delete('/user/:id', [verificationToken, verificationRole],(req, res) => {
     let id = req.params.id;
     let new_state = { state: false };
     User.findByIdAndUpdate(id, new_state,
-        { new: true },
+        { new: true, runValidators: true, context: 'query' },
         (err, user_remove) => {
             if (err) {
-                return res.status(400).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 });
