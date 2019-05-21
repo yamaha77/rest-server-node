@@ -62,6 +62,34 @@ app.get('/product/:id', verificationToken, (req, res) => {
             });
 });
 
+app.get('/product/search/:term', verificationToken, (req, res) => {
+
+    let term = req.params.term;
+    let regex = new RegExp(term, 'i');
+    Product.find({ name: regex })
+            .populate('category', 'description')
+            .exec( (err, products) => {
+                if (err){
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                } 
+                if ( !products ){
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            msg: 'Products not found'
+                        }
+                    })
+                } 
+                res.json({
+                    ok: true,
+                    products
+                });
+            });
+});
+
 app.post('/product', verificationToken,(req, res) => {
 
     let user_id = req.user._id;
